@@ -33,13 +33,21 @@ namespace APICatalogo.Controllers
         [HttpGet("{id:int}", Name = "ObterProduto")]
         public ActionResult<Produto> Get(int id)
         {
-            var produto = _context.Produtos.FirstOrDefault(p => p.ProdutoId == id);
-
-            if (produto is null)
+            try
             {
-                return NotFound("Produto não encontrado...");
+                var produto = _context.Produtos.FirstOrDefault(p => p.ProdutoId == id);
+
+                if (produto is null)
+                {
+                    return NotFound("Produto não encontrado...");
+                }
+                return produto;
             }
-            return produto;
+            catch (Exception)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, "Ocorrou um erro, por favor tente mais tarde.");
+            }
         }
 
         [HttpPost]
