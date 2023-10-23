@@ -1,6 +1,5 @@
 ﻿using APICatalogo.Context;
 using APICatalogo.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +16,19 @@ namespace APICatalogo.Controllers
             _context = context;
         }
 
+        [HttpGet("primeiro")]
+        public ActionResult<Produto> GetPrimeiro()
+        {
+            var produto = _context.Produtos.FirstOrDefault();
+
+            if (produto is null)
+            {
+                return NotFound("Produtos não encontrados...");
+            }
+
+            return produto;
+        }
+
         [HttpGet]
         public ActionResult<IEnumerable<Produto>> Get()
         {
@@ -30,7 +42,8 @@ namespace APICatalogo.Controllers
             return produtos;
         }
 
-        [HttpGet("{id:int}", Name = "ObterProduto")]
+        [HttpGet("{id:int:min(1)}", Name = "ObterProduto")]
+        //[HttpGet("{valor:alpha:lenght(5)}")]
         public ActionResult<Produto> Get(int id)
         {
             try
