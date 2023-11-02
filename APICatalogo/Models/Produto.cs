@@ -10,9 +10,9 @@ public class Produto
     [Key]
     public int ProdutoId { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "O nome é obrigatório!")]
     [StringLength(80)]
-    public string? Nome { get; set; }
+    public string? Nome { get; set; }   
 
     [Required]
     [StringLength(300)]
@@ -29,8 +29,8 @@ public class Produto
     public float Estoque { get; set; }
     public DateTime DataCadastro { get; set; }
 
-    public int CategoriaId { get; set; } 
+    public int CategoriaId { get; set; }
 
     [JsonIgnore]
-    public Categoria? Categoria { get; set; } 
+    public Categoria? Categoria { get; set; }
 }

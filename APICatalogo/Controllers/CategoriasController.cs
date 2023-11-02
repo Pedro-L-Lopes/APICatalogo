@@ -1,7 +1,6 @@
 ﻿using APICatalogo.Context;
 using APICatalogo.Models;
 using APICatalogo.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
