@@ -13,7 +13,7 @@ public class Produto : IValidatableObject
 
     [Required(ErrorMessage = "O nome é obrigatório!")]
     [StringLength(80)]
-    [PrimeiraLetraMaiuscula]
+    //[PrimeiraLetraMaiuscula]
     public string? Nome { get; set; }
 
     [Required]
