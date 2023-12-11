@@ -25,6 +25,8 @@ namespace ApiCatalogo.Repository
         public IEnumerable<Produto> GetProdutoPorPreco()
         {
             return Get().OrderBy(c => c.Preco).ToList();
+
+
         }
     }
 }
