@@ -1,4 +1,6 @@
-﻿namespace APICatalogo.Pagination;
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace APICatalogo.Pagination;
 public class PagedList<T> : List<T>
 {
     public int CurrentPage { get; set; }
@@ -21,12 +23,12 @@ public class PagedList<T> : List<T>
     }
 
     // Fonte de dados // número da página // tamanho da página
-    public static PagedList<T> ToPagedList(IQueryable<T> source, int pageNumber, int PageSize)
+    public async static Task<PagedList<T>> ToPagedList(IQueryable<T> source, int pageNumber, int PageSize)
     {
         // Quantos itens tem no total para fazer a paginação
         var count = source.Count();
         //Paginando
-        var items = source.Skip((pageNumber - 1) * PageSize).Take(PageSize).ToList();
+        var items = await source.Skip((pageNumber - 1) * PageSize).Take(PageSize).ToListAsync();
 
         return new PagedList<T>(items, count, pageNumber, PageSize);
     }

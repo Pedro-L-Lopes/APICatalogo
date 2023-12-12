@@ -5,8 +5,6 @@ using APICatalogo.Pagination;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace ApiCatalogo.Controllers
 {

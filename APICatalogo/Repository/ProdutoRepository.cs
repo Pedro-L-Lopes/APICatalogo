@@ -19,7 +19,7 @@ namespace ApiCatalogo.Repository
             //        .Take(produtosParameters.PageSize)
             //        .ToList();
 
-            return PagedList<Produto>.ToPagedList(Get().OrderBy(on => on.Nome),
+            return await PagedList<Produto>.ToPagedList(Get().OrderBy(on => on.Nome),
                 produtosParameters.PageNumber, produtosParameters.PageSize);
         }
 
