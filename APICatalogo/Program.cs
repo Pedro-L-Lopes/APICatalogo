@@ -89,6 +89,15 @@ var mappingConfig = new MapperConfiguration(mc =>
 IMapper mapper = mappingConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("PermitirApiRequest",
+        builder =>
+        builder.WithOrigins("https://wwwapirequest.io/")
+        .WithMethods("GET"));
+});
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -103,6 +112,11 @@ app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Politica cors restritiva
+//app.UseCors(opt  => opt
+//    .WithOrigins("https://wwwapirequest.io/")
+//        .WithMethods("GET"));
 
 app.MapControllers();
 app.Run();
