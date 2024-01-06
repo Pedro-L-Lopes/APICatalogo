@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace APICatalogo.Controllers
 {
     [ApiVersion("2.0")]
-    [Route("api/teste")]
+    [Route("api/teste2")]
     [ApiController]
     public class TesteV2Controller : ControllerBase
     {
