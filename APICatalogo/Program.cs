@@ -11,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using Asp.Versioning;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,6 +43,12 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath);
+
+
+    // Token
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
     {
         Name = "Authorization",
@@ -115,13 +122,13 @@ var mappingConfig = new MapperConfiguration(mc =>
 IMapper mapper = mappingConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("PermitirApiRequest",
-        builder =>
-        builder.WithOrigins("https://wwwapirequest.io/")
-        .WithMethods("GET"));
-});
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("PermitirApiRequest",
+//       builder =>
+//        builder.WithOrigins("https://wwwapirequest.io/")
+//       .WithMethods("GET"));
+//});
 
 
 var app = builder.Build();

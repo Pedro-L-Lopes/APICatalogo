@@ -58,6 +58,11 @@ namespace ApiCatalogo.Controllers
             return categoriasDTO;
         }
 
+        /// <summary>
+        /// Obtenha uma categoria pelo seu id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Objetos Categoria</returns>
         [HttpGet("{id}", Name = "ObterCategoria")]
         public async Task<ActionResult<CategoriaDTO>> Get(int id)
         {
@@ -73,6 +78,20 @@ namespace ApiCatalogo.Controllers
             return categoriaDTO;
         }
 
+        /// <summary>
+        /// Inlcui uma nova categoria
+        /// </summary>
+        /// <remarks>
+        ///  Exemplo de request:
+        ///     POST api/categorias
+        ///     {
+        ///         "categoriaId": 1,
+        ///         "nome": Categoria1,
+        ///         "imagemUrl": "http://teste.net/1.jpg"
+        ///     }
+        /// </remarks>
+        /// <param name="categoria">Objeto Categoria</param>
+        /// <returns>Objeto Categoria incluida</returns>
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] Categoria categoria)
         {
