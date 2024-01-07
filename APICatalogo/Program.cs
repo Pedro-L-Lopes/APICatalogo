@@ -57,7 +57,6 @@ builder.Services.AddSwaggerGen(c =>
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
         Description = "Header de autorização JWT usando o esquema Bearer.\r\n\r\nInforme 'Bearer'[espaço]..."
-
     });
 
     c.AddSecurityRequirement(new OpenApiSecurityRequirement()
@@ -122,13 +121,13 @@ var mappingConfig = new MapperConfiguration(mc =>
 IMapper mapper = mappingConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("PermitirApiRequest",
-        builder =>
-        builder.WithOrigins("https://wwwapirequest.io/")
-        .WithMethods("GET"));
-});
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("PermitirApiRequest",
+//       builder =>
+//       builder.WithOrigins("https://wwwapirequest.io/")
+//      .WithMethods("GET"));
+//});
 
 
 var app = builder.Build();
