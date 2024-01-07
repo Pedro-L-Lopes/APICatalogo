@@ -11,6 +11,7 @@ using System.Linq;
 
 namespace ApiCatalogo.Controllers
 {
+    [Produces("application/json")]
     [Route("api/[Controller]")]
     [ApiController]
     public class ProdutosController : ControllerBase

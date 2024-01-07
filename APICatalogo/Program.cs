@@ -122,13 +122,13 @@ var mappingConfig = new MapperConfiguration(mc =>
 IMapper mapper = mappingConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
 
-//builder.Services.AddCors(options =>
-//{
-//    options.AddPolicy("PermitirApiRequest",
-//       builder =>
-//        builder.WithOrigins("https://wwwapirequest.io/")
-//       .WithMethods("GET"));
-//});
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("PermitirApiRequest",
+        builder =>
+        builder.WithOrigins("https://wwwapirequest.io/")
+        .WithMethods("GET"));
+});
 
 
 var app = builder.Build();
