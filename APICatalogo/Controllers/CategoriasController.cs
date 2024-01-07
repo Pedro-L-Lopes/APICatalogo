@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 
 namespace ApiCatalogo.Controllers
 {
+    [ApiConventionType(typeof(DefaultApiConventions))]
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/[Controller]")]
@@ -92,8 +93,10 @@ namespace ApiCatalogo.Controllers
         ///     }
         /// </remarks>
         /// <param name="categoria">Objeto Categoria</param>
-        /// <returns>Objeto Categoria incluida</returns>
+        /// <returns>Retorna um bbjeto Categoria incluido</returns>
         [HttpPost]
+        //[ProducesResponseType(StatusCodes.Status201Created)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> Post([FromBody] Categoria categoria)
         {
             var categorias = _mapper.Map<Categoria>(categoria);
