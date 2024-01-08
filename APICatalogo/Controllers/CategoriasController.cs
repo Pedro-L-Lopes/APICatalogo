@@ -143,7 +143,7 @@ namespace ApiCatalogo.Controllers
             await _uof.Commit();
 
             var categoriaDTO = _mapper.Map<CategoriaDTO>(categoria);
-
+             
             return categoriaDTO;
         }
     }
