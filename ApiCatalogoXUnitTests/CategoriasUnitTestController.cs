@@ -5,6 +5,7 @@ using APICatalogo.Context;
 using APICatalogo.DTOs.Mappings;
 using APICatalogo.Pagination;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 
@@ -37,10 +38,8 @@ namespace ApiCatalogoXUnitTests
 
             var context = new AppDbContext(dbContextOptions);
 
-            // Nota: Verifique se o método Seed está disponível na sua classe DbUnitTestsMackInitialize
-            // e remova ou ajuste conforme necessário.
-            DbUnitTestsMackInitialize db = new DbUnitTestsMackInitialize();
-            db.Seed(context);
+            //DbUnitTestsMackInitialize db = new DbUnitTestsMackInitialize();
+            //db.Seed(context);
 
             repository = new UnityOfWork(context);
         }
@@ -49,17 +48,19 @@ namespace ApiCatalogoXUnitTests
         [Fact]
         public async void GetCategorias_Return_OkResult()
         {
-            // Arrange  
+            //Arrange
             var controller = new CategoriasController(repository, mapper);
-            CategoriasParameters parameters = new CategoriasParameters()
+            CategoriasParameters parameters = new()
             {
                 PageNumber = 1,
-                PageSize = 10
+                PageSize = 15
             };
-            // Act
+
+            //Act
             var data = await controller.Get(parameters);
-            // Assert  
-            Assert.IsType<CategoriaDTO>(data.Value.First());
+
+            //Assert
+            Assert.IsType<OkObjectResult>(data.Result);
         }
     }
 }

@@ -53,11 +53,16 @@ namespace ApiCatalogo.Controllers
 
             };
 
-            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+            Response?.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
+            if (categorias is null)
+            {
+                return NotFound("Categorias não encontrados");
+            }
 
             var categoriasDTO = _mapper.Map<List<CategoriaDTO>>(categorias);
 
-            return categoriasDTO;
+            return Ok(categoriasDTO);
         }
 
         /// <summary>
@@ -143,7 +148,7 @@ namespace ApiCatalogo.Controllers
             await _uof.Commit();
 
             var categoriaDTO = _mapper.Map<CategoriaDTO>(categoria);
-             
+
             return categoriaDTO;
         }
     }
