@@ -37,32 +37,45 @@ namespace ApiCatalogo.Controllers
             return categoriasDTO;
         }
 
+        /// <summary>
+        /// Obter todas as categorias
+        /// </summary>
+        /// <param name="categoriasParameters"></param>
+        /// <returns>Objetos Categoria</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CategoriaDTO>>> Get([FromQuery] CategoriasParameters categoriasParameters)
         {
-            var categorias = await _uof.CategoriaRepository.GetCategorias(categoriasParameters);
-
-            var metadata = new
+            try
             {
-                categorias.TotalCount,
-                categorias.PageSize,
-                categorias.CurrentPage,
-                categorias.TotalPages,
-                categorias.HasNext,
-                categorias.HasPrevious
+                var categorias = await _uof.CategoriaRepository.GetCategorias(categoriasParameters);
 
-            };
+                var metadata = new
+                {
+                    categorias.TotalCount,
+                    categorias.PageSize,
+                    categorias.CurrentPage,
+                    categorias.TotalPages,
+                    categorias.HasNext,
+                    categorias.HasPrevious
 
-            Response?.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+                };
 
-            if (categorias is null)
-            {
-                return NotFound("Categorias não encontrados");
+                Response?.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
+                if (categorias is null)
+                {
+                    return NotFound("Categorias não encontrados");
+                }
+
+                var categoriasDTO = _mapper.Map<List<CategoriaDTO>>(categorias);
+
+                //throw new Exception();
+                return Ok(categoriasDTO);
             }
-
-            var categoriasDTO = _mapper.Map<List<CategoriaDTO>>(categorias);
-
-            return Ok(categoriasDTO);
+            catch (Exception ex)
+            {
+                return BadRequest("Ocorreu um erro" + ex);
+            }
         }
 
         /// <summary>
@@ -102,18 +115,26 @@ namespace ApiCatalogo.Controllers
         [HttpPost]
         //[ProducesResponseType(StatusCodes.Status201Created)]
         //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Post([FromBody] Categoria categoria)
+        public async Task<ActionResult> Post([FromBody] CategoriaDTO categoriaDTO)
         {
-            var categorias = _mapper.Map<Categoria>(categoria);
+            try
+            {
+                var categoria = _mapper.Map<Categoria>(categoriaDTO);
 
-            _uof.CategoriaRepository.Add(categoria);
-            await _uof.Commit();
+                _uof.CategoriaRepository.Add(categoria);
+                await _uof.Commit();
 
-            var categoriaDTO = _mapper.Map<ProdutoDTO>(categoria);
+                var categoriaResponseDTO = _mapper.Map<CategoriaDTO>(categoria);
 
-            return new CreatedAtRouteResult("ObterCategoria",
-                new { id = categoria.CategoriaId }, categoriaDTO);
+                return new CreatedAtRouteResult("ObterCategoria",
+                    new { id = categoria.CategoriaId }, categoriaResponseDTO);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Ocorreu um erro" + ex);
+            }
         }
+
 
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(int id, [FromBody] CategoriaDTO categoriaDto)
